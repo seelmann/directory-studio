@@ -86,6 +86,10 @@ public class Fedora389dsTest
     public static void skip389dsTestIfNotRunning() throws Exception
     {
 
+        System.out.println( "Fedora389dsTest: FEDORA_389DS_HOST=" + FEDORA_389DS_HOST );
+        System.out.println( "Fedora389dsTest: FEDORA_389DS_PORT=" + FEDORA_389DS_PORT );
+        System.out.println( "Fedora389dsTest: FEDORA_389DS_ADMIN_DN=" + FEDORA_389DS_ADMIN_DN );
+        System.out.println( "Fedora389dsTest: FEDORA_389DS_ADMIN_PASSWORD=" + FEDORA_389DS_ADMIN_PASSWORD );
         try ( LdapNetworkConnection connection = new LdapNetworkConnection( FEDORA_389DS_HOST, FEDORA_389DS_PORT ) )
         {
             connection.connect();
@@ -93,11 +97,15 @@ public class Fedora389dsTest
         }
         catch ( InvalidConnectionException e )
         {
+            System.out.println( "Fedora389dsTest: Connection failed " + e );
+            e.printStackTrace();
             Assume.assumeNoException(
                 "Skipping tests as connection to Fedora 389 DS failed: " + FEDORA_389DS_HOST + ":" + FEDORA_389DS_PORT, e );
         }
         catch ( LdapAuthenticationException e )
         {
+            System.out.println( "Fedora389dsTest: Bind failed " + e );
+            e.printStackTrace();
             Assume.assumeNoException(
                 "Skipping tests as bind to Fedora 389 DS failed: " + FEDORA_389DS_HOST + ":" + FEDORA_389DS_PORT, e );
         }
