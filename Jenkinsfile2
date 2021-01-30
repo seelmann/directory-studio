@@ -15,7 +15,7 @@ pipeline {
       steps {
         script {
           docker.image('osixia/openldap:1.3.0').withRun() { openldap ->
-            docker.image('389ds/dirsrv').withRun('', 'bash -c "set -m; /usr/lib/dirsrv/dscontainer -r & while ! /usr/lib/dirsrv/dscontainer -H; do sleep 5; done; sleep 5; /usr/sbin/dsconf localhost backend create --suffix dc=example,dc=org --be-name example; fg"') { fedora389ds ->
+            docker.image('389ds/dirsrv').withRun('-e DS_DM_PASSWORD=admin', 'bash -c "set -m; /usr/lib/dirsrv/dscontainer -r & while ! /usr/lib/dirsrv/dscontainer -H; do sleep 5; done; sleep 5; /usr/sbin/dsconf localhost backend create --suffix dc=example,dc=org --be-name example; fg"') { fedora389ds ->
               sh 'docker ps'
               sh 'docker logs ' + fedora389ds.id
               sh 'sleep 120'
